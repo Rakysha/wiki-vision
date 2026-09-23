@@ -53,6 +53,11 @@ WikiVision runs entirely in your browser. API keys are never sent to an intermed
 | `K` | Jump to Table of Contents |
 | `T` | Toggle Dark / Light theme |
 
+## Future Plans
+
+- Android Auto support for hands-free listening while driving.
+- Dedicated mobile applications (iOS & Android).
+
 ## Authors & Co-Authors
 
 - **Creator & Lead Architect:** [Mr. Angelo (Rakysha)](https://github.com/Rakysha) · *he/him*
