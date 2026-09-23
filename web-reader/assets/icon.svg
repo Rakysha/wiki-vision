@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="40%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base with subtle inner border -->
+  <rect width="512" height="512" rx="116" fill="url(#bgGrad)" />
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="3" />
+
+  <!-- Ambient Glow -->
+  <circle cx="256" cy="270" r="140" fill="#6366f1" opacity="0.25" filter="url(#softGlow)" />
+
+  <!-- WikiVision Open Book / Vision W Crest -->
+  <g transform="translate(256, 280)">
+    <!-- Left Wing (Book page / W stroke) -->
+    <path d="M-130,-70 C-110,-10 -60,20 -12,40 L-12,105 C-65,85 -115,55 -140,0 Z" 
+          fill="url(#glowGrad)" opacity="0.95" />
+    
+    <!-- Right Wing (Book page / W stroke) -->
+    <path d="M130,-70 C110,-10 60,20 12,40 L12,105 C65,85 115,55 140,0 Z" 
+          fill="url(#glowGrad)" opacity="0.95" />
+
+    <!-- Center Fold Glow -->
+    <path d="M0,35 L-12,40 L-12,105 L0,110 L12,105 L12,40 Z" fill="#c084fc" opacity="0.8" />
+
+    <!-- Vision Light Wave (Arcs) -->
+    <path d="M-90,-110 C-40,-140 40,-140 90,-110" fill="none" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" opacity="0.8" />
+    <path d="M-60,-80 C-25,-100 25,-100 60,-80" fill="none" stroke="#818cf8" stroke-width="7" stroke-linecap="round" opacity="0.9" />
+
+    <!-- AI Spark (Central floating crystal star) -->
+    <path d="M0,-145 Q0,-120 20,-120 Q0,-120 0,-95 Q0,-120 -20,-120 Q0,-120 0,-145 Z" fill="url(#accentGrad)" filter="url(#softGlow)" />
+  </g>
+</svg>

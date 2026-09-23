@@ -1,0 +1,35 @@
+{
+  "name": "wikivision",
+  "version": "1.0.0-beta",
+  "description": "AI-powered smart Wikipedia reader featuring synchronous word-by-word speech synthesis, dynamic ELI5 explanations, noise-filtered book typography, and modern Apple Aurora aesthetics.",
+  "keywords": [
+    "wikipedia",
+    "reader",
+    "tts",
+    "speech-synthesis",
+    "ai",
+    "groq",
+    "bothub",
+    "deepseek",
+    "openai",
+    "gemini",
+    "claude",
+    "pwa",
+    "accessibility"
+  ],
+  "homepage": "https://github.com/wikivision/wiki-vision#readme",
+  "bugs": {
+    "url": "https://github.com/wikivision/wiki-vision/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "python web-reader/server.py",
+    "dev": "python web-reader/server.py --port 8080",
+    "serve": "python web-reader/server.py",
+    "tunnel": "npx localtunnel --port 8080"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

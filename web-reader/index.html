@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="theme-color" content="#0b0f19" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WikiVision">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <title>WikiVision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Onest:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=34.0">
+  <script>
+    (function() {
+      try {
+        var s = localStorage.getItem('wv_theme');
+        var d = s ? s : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', d);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <!-- APPLE MESH GRADIENT BACKGROUND -->
+  <div class="aurora-canvas">
+    <div class="aurora-orb aurora-orb-1"></div>
+    <div class="aurora-orb aurora-orb-2"></div>
+    <div class="aurora-orb aurora-orb-3"></div>
+    <div class="aurora-orb aurora-orb-4"></div>
+    <div class="aurora-orb aurora-orb-5"></div>
+    <div class="aurora-grain"></div>
+  </div>
+
+  <!-- СЕНСОРНАЯ ЗОНА ДЛЯ ПЛАВНОГО ОТКРЫТИЯ ШАПКИ -->
+  <div class="topbar-sensor" id="topbar-sensor" title="Наведите курсор вверх, чтобы открыть панель"></div>
+
+  <div class="app-shell">
+    <header class="topbar" id="topbar">
+      <a class="brand" href="#top" id="brand-logo" title="На главную страницу">
+        <span class="brand-title">WikiVision</span>
+      </a>
+
+      <!-- ПОИСК СТАТЬИ ИЗ ВИКИПЕДИИ С РЕКОМЕНДАЦИЯМИ -->
+      <div class="search-wrap">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" id="input-wiki-search"
+          placeholder="Что бы вы хотели узнать? (например, Википедия, квантовая механика...)" autocomplete="off"
+          aria-label="Поиск статьи Википедии" />
+        <button id="btn-search-go" class="header-button">
+          Загрузить
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
+
+        <!-- ВЫПАДАЮЩИЙ СПИСОК ПОИСКА И РЕКОМЕНДАЦИЙ -->
+        <div id="search-suggestions" class="search-dropdown" style="display: none;">
+          <div class="search-section" id="section-direct-matches">
+            <div class="search-section-title" id="search-title-direct">🔍 Статьи Википедии</div>
+            <div id="list-direct-matches" class="suggestion-list"></div>
+          </div>
+          <div class="search-section" id="section-related-topics">
+            <div class="search-section-title" id="search-title-related">💡 Варианты для чтения (похожие темы)</div>
+            <div id="list-related-topics" class="related-chips-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ДЕЙСТВИЯ В ШАПКЕ -->
+      <div class="header-actions">
+        <!-- ВЫБОР ЯЗЫКА (RU / EN / ZH) — КРУГЛЫЕ ЖЕТОНЫ ФЛАГОВ -->
+        <div class="lang-switch" id="lang-switch" role="group" aria-label="Выбор языка">
+          <button class="lang-btn active" data-lang="ru" title="Русский (RU)" aria-label="Русский">
+            <svg class="lang-flag-round" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="12" fill="#ffffff" />
+              <mask id="round-ru-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <circle cx="12" cy="12" r="12" fill="#ffffff" />
+              </mask>
+              <g mask="url(#round-ru-mask)">
+                <rect y="8" width="24" height="8" fill="#1b5bc7" />
+                <rect y="16" width="24" height="8" fill="#d52b1e" />
+              </g>
+              <circle cx="12" cy="12" r="11.5" stroke="rgba(255, 255, 255, 0.25)" fill="none" />
+            </svg>
+          </button>
+          <button class="lang-btn" data-lang="en" title="English (EN)" aria-label="English">
+            <svg class="lang-flag-round" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="12" fill="#bd1d2c" />
+              <mask id="round-us-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <circle cx="12" cy="12" r="12" fill="#ffffff" />
+              </mask>
+              <g mask="url(#round-us-mask)">
+                <rect y="1.84" width="24" height="1.85" fill="#ffffff" />
+                <rect y="5.54" width="24" height="1.85" fill="#ffffff" />
+                <rect y="9.23" width="24" height="1.85" fill="#ffffff" />
+                <rect y="12.92" width="24" height="1.85" fill="#ffffff" />
+                <rect y="16.61" width="24" height="1.85" fill="#ffffff" />
+                <rect y="20.3" width="24" height="1.85" fill="#ffffff" />
+                <rect width="12" height="13" fill="#1b3469" />
+                <g fill="#ffffff">
+                  <circle cx="2.5" cy="2.5" r="0.85" />
+                  <circle cx="6.0" cy="2.5" r="0.85" />
+                  <circle cx="9.5" cy="2.5" r="0.85" />
+                  <circle cx="4.25" cy="4.5" r="0.85" />
+                  <circle cx="7.75" cy="4.5" r="0.85" />
+                  <circle cx="2.5" cy="6.5" r="0.85" />
+                  <circle cx="6.0" cy="6.5" r="0.85" />
+                  <circle cx="9.5" cy="6.5" r="0.85" />
+                  <circle cx="4.25" cy="8.5" r="0.85" />
+                  <circle cx="7.75" cy="8.5" r="0.85" />
+                  <circle cx="2.5" cy="10.5" r="0.85" />
+                  <circle cx="6.0" cy="10.5" r="0.85" />
+                  <circle cx="9.5" cy="10.5" r="0.85" />
+                </g>
+              </g>
+              <circle cx="12" cy="12" r="11.5" stroke="rgba(255, 255, 255, 0.2)" fill="none" />
+            </svg>
+          </button>
+          <button class="lang-btn" data-lang="zh" title="中文 (ZH)" aria-label="中文">
+            <svg class="lang-flag-round" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <mask id="round-zh-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                  <circle cx="12" cy="12" r="12" fill="#ffffff" />
+                </mask>
+                <path id="flag-star-round-zh"
+                  d="M0,-1 L0.294,-0.309 L0.951,-0.309 L0.476,0.118 L0.655,0.809 L0,0.382 L-0.655,0.809 L-0.476,0.118 L-0.951,-0.309 L-0.294,-0.309 Z"
+                  fill="#ffde00" />
+              </defs>
+              <g mask="url(#round-zh-mask)">
+                <circle cx="12" cy="12" r="12" fill="#de2910" />
+                <use href="#flag-star-round-zh" transform="translate(6, 7.5) scale(3.5)" />
+                <use href="#flag-star-round-zh" transform="translate(12, 4) rotate(-33) scale(1.15)" />
+                <use href="#flag-star-round-zh" transform="translate(14.5, 6.5) rotate(-11) scale(1.15)" />
+                <use href="#flag-star-round-zh" transform="translate(14.5, 10) rotate(14) scale(1.15)" />
+                <use href="#flag-star-round-zh" transform="translate(12, 12.5) rotate(37) scale(1.15)" />
+              </g>
+              <circle cx="12" cy="12" r="11.5" stroke="rgba(255, 255, 255, 0.2)" fill="none" />
+            </svg>
+          </button>
+        </div>
+
+        <button class="icon-button" id="btn-install-pwa" style="display: none;" title="Установить приложение"
+          aria-label="Установить приложение">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </button>
+
+        <button class="icon-button" id="btn-open-settings" title="API Ключи (BotHub / Groq / OpenAI / DeepSeek)"
+          aria-label="API Ключи">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+          </svg>
+        </button>
+
+        <!-- ПЕРЕКЛЮЧАТЕЛЬ ТЁМНОЙ / СВЕТЛОЙ ТЕМЫ -->
+        <button class="theme-toggle" id="btn-theme-toggle" title="Переключить тему (Светлая / Тёмная)" aria-label="Переключить тему">
+          <!-- Background track icons -->
+          <span class="theme-toggle-icons" aria-hidden="true">
+            <!-- Sun track icon (left) -->
+            <svg class="t-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <!-- Star track icon (right) -->
+            <svg class="t-star" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
+            </svg>
+          </span>
+          <!-- Sliding knob with dynamic sun / star -->
+          <span class="theme-toggle-knob" aria-hidden="true">
+            <svg class="knob-sun" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="4.5"/>
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m14.14-14.14l-1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <!-- Dynamic star/sparkle for dark theme -->
+            <svg class="knob-star" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 1.5C12 7.2 7.2 12 1.5 12C7.2 12 12 16.8 12 22.5C12 16.8 16.8 12 22.5 12C16.8 12 12 7.2 12 1.5Z"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- 1. WELCOME SCREEN — SPLIT HERO -->
+      <section id="welcome-view" class="welcome-screen page-enter">
+
+        <!-- SPLIT: LEFT = CONTENT, RIGHT = VISUAL PANEL -->
+        <div class="hero-split">
+          <div class="hero-split-left">
+
+
+            <!-- HERO HEADLINE -->
+            <h1 class="hero-title">
+              <span class="hero-title-line1" id="typewriter-word"></span>
+            </h1>
+
+            <!-- SUBTEXT -->
+            <p class="hero-sub" id="hero-subtext">
+              WikiVision переводит статьи Википедии в живой формат —
+              с озвучкой, подсветкой слов и объяснениями от ИИ.
+            </p>
+
+            <!-- CTA ROW -->
+            <div class="hero-cta-row">
+              <button class="primary-cta" id="btn-quick-start">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                <span id="btn-quick-start-text">Читать прямо сейчас</span>
+              </button>
+              <div class="hero-topics">
+                <span class="popular-label" id="popular-topics-label">Например:</span>
+                <button class="preset-chip" data-topic="Wikipedia">Википедия</button>
+                <button class="preset-chip" data-topic="Квантовая механика">Квантовая механика</button>
+                <button class="preset-chip" data-topic="Искусственный интеллект">ИИ</button>
+                <button class="preset-chip" data-topic="Чёрная дыра">Чёрная дыра</button>
+              </div>
+            </div>
+
+            <!-- STATS ROW — flat, no box -->
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <span class="hero-stat-num" id="stat-articles-num">6M+</span>
+                <span class="hero-stat-label" id="stat-articles-label">статей Википедии</span>
+              </div>
+              <div class="hero-stat-divider"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" id="stat-languages-num">50+</span>
+                <span class="hero-stat-label" id="stat-languages-label">языков</span>
+              </div>
+              <div class="hero-stat-divider"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" id="stat-price-num">0₽</span>
+                <span class="hero-stat-label" id="stat-price-label">без регистрации</span>
+              </div>
+            </div>
+
+          </div><!-- /hero-split-left -->
+        </div><!-- /hero-split -->
+
+        <!-- FEATURE SECTION -->
+        <div class="feature-label" id="feature-section-label">Мы умеем:</div>
+        <div class="feature-grid">
+          <article class="feature-card feature-coral feature-wide" id="card-feature-1">
+            <div class="feature-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <h3 id="card-feature-1-title">Фильтрация шума</h3>
+            <p id="card-feature-1-desc">Вырезаем сноски, ссылки и служебные блоки — остаётся только суть.</p>
+            <div class="feature-footer">
+              <span class="feature-step" id="card-feature-1-step">1 из 3</span>
+            </div>
+          </article>
+          <article class="feature-card feature-mint" id="card-feature-2">
+            <div class="feature-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3 id="card-feature-2-title">Синхронная рамка</h3>
+            <p id="card-feature-2-desc">Слово за словом — читаешь и слушаешь одновременно, не теряя нить.</p>
+            <div class="feature-footer">
+              <span class="feature-step" id="card-feature-2-step">2 из 3</span>
+            </div>
+          </article>
+          <article class="feature-card feature-gold" id="card-feature-3">
+            <div class="feature-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.5-1.3 4.7-3.3 6H8.3A6.97 6.97 0 0 1 5 9a7 7 0 0 1 7-7z" />
+              </svg>
+            </div>
+            <h3 id="card-feature-3-title">ИИ-аналогии</h3>
+            <p id="card-feature-3-desc">Нажал на слово — ИИ объяснил его простыми словами и живым примером.</p>
+            <div class="feature-footer">
+              <span class="feature-step" id="card-feature-3-step">3 из 3</span>
+            </div>
+          </article>
+        </div>
+
+      </section>
+
+
+      <!-- 2. LOADING SCREEN -->
+      <section id="loading-view" class="loading-screen page-enter" style="display: none;">
+        <div class="loading-orbit"><span></span></div>
+        <div class="loading-label" id="loading-screen-label">АНАЛИЗИРУЕМ СТАТЬЮ</div>
+        <h2 id="loading-article-name">«Загрузка...»</h2>
+        <p id="loading-screen-desc">Очищаем текст, извлекаем структуру, списки и готовим голосовую дорожку</p>
+        <div class="loading-progress"><span></span></div>
+        <div class="loading-steps">
+          <span class="done" id="loading-step-1">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span id="loading-step-1-text">Текст найден</span>
+          </span>
+          <span class="done" id="loading-step-2">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span id="loading-step-2-text">Структура</span>
+          </span>
+          <span id="loading-step-3"><span id="loading-step-3-text">Озвучка</span></span>
+        </div>
+      </section>
+
+      <!-- 3. ARTICLE PAGE (КНИЖНЫЙ РАСКЛАД) -->
+      <section id="article-view" class="article-page page-enter" style="display: none;">
+        <div class="article-topline">
+          <span class="status-dot"></span>
+          <span id="article-topline-status">Статья готова к прослушиванию</span>
+          <button id="btn-close-article" class="btn-text-close" title="Закрыть статью и вернуться">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            <span id="btn-close-article-text">Закрыть</span>
+          </button>
+        </div>
+
+        <div class="article-heading">
+          <div class="article-heading-main">
+            <div class="eyebrow" id="article-eyebrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+              <span id="article-eyebrow-text">ЭНЦИКЛОПЕДИЯ</span>
+            </div>
+            <h1 id="article-title">Заголовок статьи</h1>
+            <p class="metadata">
+              <span id="meta-word-count">0 слов</span><i></i>
+              <span id="meta-paragraph-count">0 абзацев</span><i></i>
+              <span id="meta-reading-time">~0 мин чтения</span>
+              <span id="meta-age-badge" class="age-badge-18" style="display: none;">🔞 18+</span>
+            </p>
+          </div>
+
+          <!-- КНОПКА СОДЕРЖАНИЯ С ВЫПАДАЮЩИМ СПИСКОМ ГЛАВ -->
+          <div class="toc-wrapper">
+            <button class="outline-button" id="btn-toggle-toc">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="3.01" y2="6" />
+                <line x1="3" y1="12" x2="3.01" y2="12" />
+                <line x1="3" y1="18" x2="3.01" y2="18" />
+              </svg>
+              <span id="btn-toggle-toc-text">Содержание</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div id="toc-dropdown" class="toc-dropdown" style="display: none;"></div>
+          </div>
+        </div>
+
+        <div class="rule"></div>
+
+        <!-- ЛИД-АБЗАЦ (КНИЖНАЯ ВЫРЕЗКА) -->
+        <p class="lead" id="article-lead" style="display: none;"></p>
+
+        <!-- ДВУХКОЛОНОЧНЫЙ МАКЕТ КНИГИ -->
+        <div class="article-layout">
+          <article class="article-copy" id="article-body">
+            <!-- Сюда динамически рендерятся главы, абзацы и списки -->
+          </article>
+
+          <!-- БОКОВАЯ КАРТОЧКА ГЛАВЫ (BOOK CHAPTER TRACKER) -->
+          <aside class="chapter-card" id="chapter-tracker-card">
+            <span id="chapter-tracker-label">СЕЙЧАС ЧИТАЕМ</span>
+            <strong id="active-chapter-name">Введение</strong>
+            <div class="chapter-line">
+              <i id="chapter-line-fill" style="width: 15%;"></i>
+            </div>
+            <small id="chapter-counter">Глава 1 из 1</small>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- АНГЛОЯЗЫЧНЫЙ ДИСКЛЕЙМЕР И КОПИРАЙТ -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <div class="footer-brand-row">
+          <div class="footer-brand-left">
+            <div class="footer-badge">
+              <span class="footer-badge-dot"></span>
+              WikiVision
+            </div>
+            <a class="footer-download-btn" href="#" role="button" id="btn-download-android" title="Скачать приложение WikiVision на Android">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3.609 1.814L13.792 12 3.61 22.186a2.43 2.43 0 0 1-.61-1.636V3.45c0-.626.23-1.203.609-1.636zm11.24 11.243l2.298 2.299-11.83 6.702 9.532-9.001zm0-2.114L5.317 1.942l11.83 6.703-2.298 2.298zm1.488 1.489l3.053 1.731a1.272 1.272 0 0 1 0 2.21l-3.053 1.731-2.062-2.062 2.062-2.01z" />
+              </svg>
+              <div class="footer-download-text">
+                <span class="footer-download-sub" id="footer-download-sub">Доступно для смартфона и авто</span>
+                <span class="footer-download-main" id="footer-download-main">Скачать на Android</span>
+              </div>
+            </a>
+          </div>
+          <span class="footer-note" id="footer-note-text">Next-generation interactive reading companion</span>
+        </div>
+        <div class="footer-legal">
+          <p class="footer-lead" id="footer-lead-text">
+            WikiVision создан исключительно в образовательных, информационных и познавательных целях.
+          </p>
+          <p class="footer-subtext" id="footer-subtext-text">
+            Wikipedia® и Wikimedia® являются зарегистрированными товарными знаками Wikimedia Foundation, Inc. WikiVision
+            — независимое веб-приложение с открытым исходным кодом, не связанное с Wikimedia Foundation.
+          </p>
+          <p class="footer-subtext" id="footer-age-notice-text">
+            Учтите, что статьи Википедии могут содержать материалы 18+.
+          </p>
+          <p class="footer-copy">© 2026 WikiVision. Crafted for curious minds.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ПЛАВАЮЩИЙ ПЛЕЕР (BOOK PLAYER BAR) -->
+    <div class="player" id="player-bar" style="display: none;">
+      <button class="play-button" id="btn-play-pause">
+        <svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3" />
+        </svg>
+        <svg id="pause-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+          <rect x="6" y="4" width="4" height="16" />
+          <rect x="14" y="4" width="4" height="16" />
+        </svg>
+        <span id="play-text">Слушать</span>
+      </button>
+
+      <button class="explain-button" id="btn-explain-current"
+        title="Объяснить выделенное/текущее слово через ИИ (Alt+E)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z" />
+        </svg>
+        <span id="explain-btn-text">Пояснить слово</span>
+      </button>
+      <div class="hint-popover" id="explain-hint-popover" style="display: none;">
+        Кликните по любому слову в тексте — ИИ объяснит его «на пальцах» простыми словами.
+      </div>
+
+      <div class="player-info">
+        <div class="player-title" id="player-title-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+            <path
+              d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+          </svg>
+          <span id="player-status-text">Статья готова к озвучиванию</span>
+        </div>
+        <div class="track" id="progress-track" title="Кликните для перемотки">
+          <span id="progress-fill" style="width: 0%;"></span>
+        </div>
+      </div>
+
+      <div class="player-setting player-setting-speed" id="player-setting-speed">
+        <span id="player-speed-label">Скорость</span>
+        <select id="select-rate" class="select-chip">
+          <option value="0.85">0.85x</option>
+          <option value="1.0" selected>1.0x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2.0">2.0x</option>
+        </select>
+      </div>
+
+      <div class="player-setting player-setting-voice" id="player-setting-voice">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+        </svg>
+        <select id="select-voice" class="select-chip" aria-label="Голос диктора" title="Выбор голоса диктора"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. МОДАЛЬНОЕ ОКНО ПРЕДУПРЕЖДЕНИЯ 18+ (AGE WARNING GATE) -->
+  <div id="modal-18plus-overlay" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-warning">
+      <div class="modal-header">
+        <div class="warning-badge-large" id="warning-18plus-badge">🔞 Предупреждение 18+</div>
+      </div>
+      <div class="modal-body">
+        <h3 id="warning-18plus-title">Материал для взрослой аудитории</h3>
+        <p class="modal-warning-desc" id="warning-18plus-desc">
+          Статья <strong id="warning-article-name"></strong> может содержать материалы или темы, предназначенные строго
+          для пользователей старше 18 лет.
+        </p>
+        <p class="modal-subtext" id="warning-18plus-subtext">Вы подтверждаете, что вам исполнилось 18 лет и вы хотите продолжить чтение?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-18plus-decline">Выбрать другую статью</button>
+        <button class="btn-primary-warning" id="btn-18plus-accept">Подтверждаю, мне есть 18 лет</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. МОДАЛЬНОЕ ОКНО ОБЪЯСНЕНИЯ ИИ (OPENAI / GEMINI ANALOGY) -->
+  <div id="modal-analogy-overlay" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-term" id="modal-term-name">Слово</h3>
+        <button class="modal-btn-close" id="btn-close-analogy" title="Закрыть (Esc)" aria-label="Закрыть">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body" id="modal-analogy-body">
+        <div class="modal-loading">
+          <div class="loading-orbit" style="width: 46px; height: 46px; margin: 0 auto 16px;"><span></span></div>
+          <p>ИИ формулирует жизненную аналогию «на пальцах» и контекст термина...</p>
+        </div>
+      </div>
+
+      <div class="modal-footer" id="modal-analogy-footer">
+        <button class="btn-secondary" id="btn-replay-analogy">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+          </svg>
+          Повторить озвучку
+        </button>
+        <button class="btn-primary" id="btn-continue-reading">Продолжить чтение ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. МОДАЛЬНОЕ ОКНО НАСТРОЕК (SETTINGS MODAL) -->
+  <div id="modal-settings-overlay" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-term" id="settings-modal-title">API Keys</h3>
+        </div>
+        <button class="modal-btn-close" id="btn-close-settings" title="Закрыть (Esc)" aria-label="Закрыть">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Выбор провайдера -->
+        <div class="input-field">
+          <label for="settings-provider" id="settings-provider-label">AI Provider</label>
+          <select id="settings-provider" class="select-modern">
+            <option value="groq" selected>Groq</option>
+            <option value="bothub">BotHub</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="openai">OpenAI</option>
+            <option value="openrouter">OpenRouter</option>
+            <option value="claude">Anthropic Claude</option>
+            <option value="gemini">Google Gemini</option>
+          </select>
+        </div>
+
+        <!-- Groq Key -->
+        <div class="input-field provider-section-divider" id="settings-group-groq">
+          <label for="settings-groq-key" id="settings-groq-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-groq-key" placeholder="gsk_..." autocomplete="off" />
+            <button id="toggle-settings-groq" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-groq-hint"><a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a></p>
+        </div>
+
+        <!-- BotHub Key (OpenAI-compatible) -->
+        <div class="input-field provider-section-divider" id="settings-group-bothub" style="display: none;">
+          <label for="settings-bothub-key" id="settings-bothub-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-bothub-key" placeholder="eyJhbGciOi..." autocomplete="off" />
+            <button id="toggle-settings-bothub" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-bothub-hint"><a href="https://bothub.chat" target="_blank" rel="noopener">bothub.chat</a></p>
+        </div>
+
+        <!-- DeepSeek Key -->
+        <div class="input-field provider-section-divider" id="settings-group-deepseek" style="display: none;">
+          <label for="settings-deepseek-key" id="settings-deepseek-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-deepseek-key" placeholder="sk-..." autocomplete="off" />
+            <button id="toggle-settings-deepseek" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-deepseek-hint"><a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">platform.deepseek.com</a></p>
+        </div>
+
+        <!-- OpenAI Key -->
+        <div class="input-field provider-section-divider" id="settings-group-openai" style="display: none;">
+          <label for="settings-openai-key" id="settings-openai-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-openai-key" placeholder="sk-proj-..." autocomplete="off" />
+            <button id="toggle-settings-openai" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-openai-hint"><a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a></p>
+        </div>
+
+        <!-- OpenRouter Key -->
+        <div class="input-field provider-section-divider" id="settings-group-openrouter" style="display: none;">
+          <label for="settings-openrouter-key" id="settings-openrouter-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-openrouter-key" placeholder="sk-or-..." autocomplete="off" />
+            <button id="toggle-settings-openrouter" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-openrouter-hint"><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai</a></p>
+        </div>
+
+        <!-- Claude Key -->
+        <div class="input-field provider-section-divider" id="settings-group-claude" style="display: none;">
+          <label for="settings-claude-key" id="settings-claude-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-claude-key" placeholder="sk-ant-..." autocomplete="off" />
+            <button id="toggle-settings-claude" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-claude-hint"><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a></p>
+        </div>
+
+        <!-- Gemini Key -->
+        <div class="input-field provider-section-divider" id="settings-group-gemini" style="display: none;">
+          <label for="settings-gemini-key" id="settings-gemini-key-label">API Key</label>
+          <div class="password-row">
+            <input type="password" id="settings-gemini-key" placeholder="AIzaSy..." autocomplete="off" />
+            <button id="toggle-settings-gemini" class="btn-icon" type="button" title="Показать / скрыть ключ" aria-label="Показать / скрыть ключ">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="settings-hint" id="settings-gemini-hint"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a></p>
+        </div>
+
+        <div id="api-test-result" style="display: none;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-test-settings-key">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span id="btn-test-settings-text">Проверить подключение</span>
+        </button>
+        <button class="btn-primary" id="btn-save-settings-key">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=34.0"></script>
+</body>
+
+</html>
