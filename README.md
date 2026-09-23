@@ -19,6 +19,7 @@ The idea came about because audiobooks are often behind paywalls or expensive su
 - **Synchronous Speech Narration:** Real-time word-by-word highlighting synced with voice playback and auto-scroll.
 - **On-Demand AI Explanations:** Click any word or press `Alt + E` to generate simple, contextual explanations.
 - **Multi-Provider AI Support:** Compatible with Groq, DeepSeek, OpenAI, Google Gemini, Anthropic Claude, and OpenRouter.
+- **Multilingual Support:** Currently supports 3 languages: English, Russian, and Chinese.
 - **Distraction-Free Layout:** Automatically strips infoboxes, citation tags, footnotes, and navigation boxes.
 - **Theme Support:** Fast switching between high-contrast dark and light modes.
 - **PWA & Offline Ready:** Progressive Web App with local caching.
