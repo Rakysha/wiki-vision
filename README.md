@@ -2,9 +2,17 @@
 
 WikiVision is a distraction-free Wikipedia reader with synchronized text-to-speech narration and on-demand AI explanations for unfamiliar concepts.
 
+![WikiVision Showcase](showcase.png)
+
 The idea came about because audiobooks are often behind paywalls or expensive subscriptions. With WikiVision, anyone can turn open encyclopedic knowledge into narrated audio and learn productively for free.
 
 *Note: This is an early, raw beta release. Some features may be unpolished, and future updates might follow.*
+
+## Demo
+
+<video src="showcase.mp4" controls="controls" width="100%"></video>
+
+[Watch Demo Video](showcase.mp4)
 
 ## Features
 
