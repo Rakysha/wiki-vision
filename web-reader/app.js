@@ -5,7 +5,6 @@
  */
 
 (() => {
-  // --- СОСТОЯНИЕ ПРИЛОЖЕНИЯ ---
   const state = {
     aiProvider: localStorage.getItem('wv_ai_provider') || (localStorage.getItem('wv_groq_api_key') ? 'groq' : (localStorage.getItem('wv_bothub_api_key') ? 'bothub' : (localStorage.getItem('wv_deepseek_api_key') ? 'deepseek' : 'groq'))),
     openaiApiKey: localStorage.getItem('wv_openai_api_key') || '',
@@ -15,7 +14,7 @@
     deepseekApiKey: localStorage.getItem('wv_deepseek_api_key') || '',
     openrouterApiKey: localStorage.getItem('wv_openrouter_api_key') || '',
     bothubApiKey: localStorage.getItem('wv_bothub_api_key') || '',
-    apiKey: '', // обратная совместимость
+    apiKey: '',
     ageFilterEnabled: localStorage.getItem('wv_age_filter') !== 'false',
     lang: localStorage.getItem('wv_lang') || 'ru',
     theme: localStorage.getItem('wv_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
@@ -65,10 +64,8 @@
     }
   }
 
-  // Синхронизация основного ключа
   state.apiKey = getActiveApiKey();
 
-  // --- ЭЛЕМЕНТЫ DOM ---
   const el = {
     brandLogo: document.getElementById('brand-logo'),
     inputSearch: document.getElementById('input-wiki-search'),
@@ -165,7 +162,6 @@
     apiTestResult: document.getElementById('api-test-result')
   };
 
-  // --- СЛОВАРЬ ПЕРЕВОДОВ (i18n: RU, EN, ZH) ---
   const TRANSLATIONS = {
     ru: {
       langName: 'Русский',
@@ -538,7 +534,6 @@
     }
   };
 
-  // Переключение языка интерфейса и инфраструктуры
   function setLanguage(lang) {
     if (!TRANSLATIONS[lang]) return;
     state.lang = lang;
@@ -546,7 +541,6 @@
 
     const t = TRANSLATIONS[lang];
 
-    // 1. Активное состояние кнопок флагов
     document.querySelectorAll('#lang-switch .lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
@@ -557,7 +551,6 @@
     const langSwitch = document.getElementById('lang-switch');
     if (langSwitch) langSwitch.setAttribute('aria-label', t.langSwitchAria || '');
 
-    // 2. Поисковая строка
     if (el.inputSearch) {
       el.inputSearch.placeholder = t.searchPlaceholder;
       el.inputSearch.setAttribute('aria-label', t.searchAria || '');
@@ -572,12 +565,10 @@
     const searchRelatedTitle = document.getElementById('search-title-related');
     if (searchRelatedTitle) searchRelatedTitle.innerText = t.searchRelatedTitle;
 
-    // 3. Возрастной индикатор
     updateAgeIndicator();
     const ageToggle = document.getElementById('age-toggle');
     if (ageToggle) ageToggle.title = t.ageToggleTooltip || '';
 
-    // 4. Welcome экран
     const heroSub = document.getElementById('hero-subtext');
     if (heroSub) heroSub.innerHTML = t.heroSub;
     const btnQuickStartText = document.getElementById('btn-quick-start-text');
@@ -585,7 +576,6 @@
     const popularLabel = document.getElementById('popular-topics-label');
     if (popularLabel) popularLabel.innerText = t.popularLabel;
 
-    // Чипы тем
     const heroTopics = document.querySelector('.hero-topics');
     if (heroTopics) {
       heroTopics.innerHTML = `<span class="popular-label" id="popular-topics-label">${t.popularLabel}</span>`;
@@ -603,7 +593,6 @@
       el.presetChips = heroTopics.querySelectorAll('.preset-chip');
     }
 
-    // 5. Статистика
     const sArtNum = document.getElementById('stat-articles-num');
     if (sArtNum) sArtNum.innerText = t.statArticlesNum;
     const sArtLbl = document.getElementById('stat-articles-label');
@@ -617,7 +606,6 @@
     const sPrLbl = document.getElementById('stat-price-label');
     if (sPrLbl) sPrLbl.innerText = t.statPriceLabel;
 
-    // 6. Карточки преимуществ
     const featLbl = document.getElementById('feature-section-label');
     if (featLbl) featLbl.innerText = t.featureLabel;
     const c1Title = document.getElementById('card-feature-1-title');
@@ -641,7 +629,6 @@
     const c3Step = document.getElementById('card-feature-3-step');
     if (c3Step) c3Step.innerText = t.card3Step;
 
-    // 7. Loading экран
     const loadLbl = document.getElementById('loading-screen-label');
     if (loadLbl) loadLbl.innerText = t.loadingLabel;
     const loadDesc = document.getElementById('loading-screen-desc');
@@ -653,7 +640,6 @@
     const s3Text = document.getElementById('loading-step-3-text');
     if (s3Text) s3Text.innerText = t.loadingStep3;
 
-    // 8. Article экран
     const artStatus = document.getElementById('article-topline-status');
     if (artStatus) artStatus.innerText = t.articleToplineStatus;
     const btnCloseText = document.getElementById('btn-close-article-text');
@@ -669,7 +655,6 @@
     document.documentElement.lang = lang;
     document.title = 'WikiVision';
 
-    // 9. Плеер
     updatePlayerUI();
     const expText = document.getElementById('explain-btn-text');
     if (expText) expText.innerText = t.explainBtn;
@@ -714,7 +699,6 @@
       el.selectVoice.setAttribute('aria-label', t.voiceTooltip || 'Выбор голоса диктора');
     }
 
-    // 10. Модальное 18+
     const wBadge = document.getElementById('warning-18plus-badge');
     if (wBadge) wBadge.innerText = t.warning18Badge;
     const wTitle = document.getElementById('warning-18plus-title');
@@ -724,7 +708,6 @@
     if (el.btn18plusDecline) el.btn18plusDecline.innerText = t.warning18Decline;
     if (el.btn18plusAccept) el.btn18plusAccept.innerText = t.warning18Accept;
 
-    // 11. Модальное аналогии
     if (el.btnReplayAnalogy) {
       const svg = el.btnReplayAnalogy.querySelector('svg');
       el.btnReplayAnalogy.innerHTML = '';
@@ -744,7 +727,6 @@
       renderModalKeyPrompt();
     }
 
-    // 12. Подвал и настройки
     const fNote = document.getElementById('footer-note-text');
     if (fNote) fNote.innerText = t.footerNote;
     const fLead = document.getElementById('footer-lead-text');
@@ -774,7 +756,6 @@
 
     updateSettingsModalTranslations();
 
-    // 13. Обновление метаданных открытой статьи, если она активна
     if (state.totalWordsCount > 0) {
       const localeMap = { ru: 'ru-RU', en: 'en-US', zh: 'zh-CN' };
       const curLoc = localeMap[state.lang] || 'ru-RU';
@@ -784,20 +765,16 @@
       if (el.metaReadingTime) el.metaReadingTime.innerText = `~${readingTime} ${t.readingTimeUnit}`;
     }
 
-    // 14. Переинициализация синтезатора речи для языка
     initVoices();
 
-    // 15. Перезапуск тайпрайтера, если мы на главном экране
     if (el.viewWelcome && el.viewWelcome.style.display !== 'none') {
       startTypewriter(t.typewriterGreeting);
     }
   }
 
-  // Обновление всех переводов внутри модального окна настроек
   function updateSettingsModalTranslations() {
     const t = TRANSLATIONS[state.lang] || TRANSLATIONS.ru;
 
-    // Remove subtitle badge if present
     const sSub = document.getElementById('settings-modal-sub');
     if (sSub) sSub.remove();
 
@@ -842,7 +819,6 @@
       if (hintEl) {
         hintEl.innerHTML = `${t.getKeyText} <a href="${item.url}" target="_blank" rel="noopener">${item.domain}</a>`;
       }
-      // Clean label: just "API Key" in the current language (provider is shown in dropdown)
       const labelEl = document.getElementById(item.labelId);
       if (labelEl) {
         labelEl.innerText = t.apiKeySuffix || 'API Key';
@@ -862,7 +838,6 @@
     });
   }
 
-  // --- 1. ИНИЦИАЛИЗАЦИЯ ГОЛОСОВ (TTS) С ПОДДЕРЖКОЙ МОБИЛЬНЫХ УСТРОЙСТВ ---
   function initVoices() {
     if (!window.speechSynthesis) return;
 
@@ -940,7 +915,6 @@
       }
     }
 
-    // Повторные асинхронные проверки для iOS Safari / WebKit & Android TTS
     [120, 350, 800, 2000].forEach(delay => {
       setTimeout(() => {
         if (!state.voices || state.voices.length === 0 || el.selectVoice.options.length <= 1) {
@@ -949,7 +923,6 @@
       }, delay);
     });
 
-    // Резервная инициализация при касании селектора на телефоне
     const refreshOnOpen = () => {
       if (!state.voices || state.voices.length === 0 || el.selectVoice.options.length <= 1) {
         load();
@@ -959,7 +932,6 @@
     el.selectVoice.addEventListener('focus', refreshOnOpen);
   }
 
-  // Обновление индикатора возрастного фильтра в шапке
   function updateAgeIndicator() {
     if (el.headerAgeIndicator) {
       const t = TRANSLATIONS[state.lang] || TRANSLATIONS.ru;
@@ -968,13 +940,11 @@
     }
   }
 
-  // --- 2. ЗАГРУЗКА И ДЕТЕКЦИЯ 18+ СТАТЬИ (КАТЕГОРИИ + EXTRACT + СЛОВАРЬ) ---
   async function check18PlusContent(title) {
     if (!state.ageFilterEnabled) return false;
 
     try {
       const wikiLang = state.lang || 'ru';
-      // Запрашиваем категории, вводный текст статьи (extract) и описания
       const url = `https://${wikiLang}.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=categories|extracts|pageprops&cllimit=150&exintro=1&explaintext=1&format=json&origin=*`;
       const res = await fetch(url);
       const data = await res.json();
@@ -994,9 +964,7 @@
         }
       }
 
-      // Структурированный список регулярок для точного распознавания 18+ (RU / EN / ZH)
       const triggerPatterns = [
-        // Сексуальный и взрослый контент
         /(?:^|[^а-яёa-z0-9])секс/i,
         /(?:^|[^а-яёa-z0-9])порно/i,
         /(?:^|[^а-яёa-z0-9])эротик/i,
@@ -1020,7 +988,6 @@
         /(?:^|[^а-яёa-z0-9])педофил/i,
         /(?:^|[^а-яёa-z0-9])инцест/i,
         /(?:^|[^а-яёa-z0-9])некрофил/i,
-        // English adult keywords
         /(?:^|[^a-z0-9])porn/i,
         /(?:^|[^a-z0-9])erotic/i,
         /(?:^|[^a-z0-9])sexual\s+(intercourse|organs)/i,
@@ -1030,14 +997,12 @@
         /(?:^|[^a-z0-9])prostitut/i,
         /(?:^|[^a-z0-9])incest/i,
         /(?:^|[^a-z0-9])suicide/i,
-        // Chinese adult keywords
         /色情/,
         /成人内容/,
         /性交/,
         /生殖器/,
         /自杀/,
         /毒品/,
-        // Экстремальное насилие, суицид, пытки
         /(?:^|[^а-яёa-z0-9])расчленен/i,
         /(?:^|[^а-яёa-z0-9])(?<!по)пытк/i,
         /(?:^|[^а-яёa-z0-9])казн/i,
@@ -1051,7 +1016,6 @@
         /серийный\s+убийца/i,
         /(?:^|[^а-яёa-z0-9])снафф/i,
         /насильственн[а-я]*\s+смерт/i,
-        // Тяжелые наркотики
         /(?:^|[^а-яёa-z0-9])наркоти/i,
         /(?:^|[^а-яёa-z0-9])героин/i,
         /(?:^|[^а-яёa-z0-9])кокаин/i,
@@ -1072,7 +1036,6 @@
     if (!query || !query.trim()) return;
     let title = query.trim();
 
-    // Парсинг прямой ссылки на wikipedia.org (с автоопределением языка)
     if (title.includes('wikipedia.org/wiki/')) {
       const match = title.match(/https?:\/\/([a-z0-9-]+)\.wikipedia\.org\/wiki\/([^#?]+)/i);
       if (match) {
@@ -1094,11 +1057,9 @@
 
     try {
       const wikiLang = state.lang || 'ru';
-      // 1. Проверка 18+ фильтра
       const is18 = await check18PlusContent(title);
       state.is18Plus = is18;
 
-      // 2. Загрузка HTML через REST API
       const restUrl = `https://${wikiLang}.wikipedia.org/api/rest_v1/page/html/${encodeURIComponent(title)}`;
       let response = await fetch(restUrl);
 
@@ -1108,7 +1069,6 @@
       if (response.ok) {
         htmlContent = await response.text();
       } else {
-        // Резерв: Action API parse
         const actionUrl = `https://${wikiLang}.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(title)}&prop=text|displaytitle&format=json&origin=*`;
         const actionRes = await fetch(actionUrl);
         const actionData = await actionRes.json();
@@ -1122,7 +1082,6 @@
       state.articleTitle = pageTitle;
       processArticleContent(pageTitle, htmlContent);
 
-      // Если обнаружен 18+ контент и включен фильтр — показываем шторку
       if (state.is18Plus && state.ageFilterEnabled && !state.userAccepted18Plus) {
         show18PlusWarning(pageTitle);
       }
@@ -1136,7 +1095,6 @@
     }
   }
 
-  // Очистка текста абзаца от сносок ([1], [источник]), лишних пробелов
   function cleanParagraphText(rawText) {
     if (!rawText) return '';
     return rawText
@@ -1146,12 +1104,10 @@
       .trim();
   }
 
-  // --- 3. KNOWLEDGE EXTRACTOR & ПАРСЕР (ФИКС «СТРУКТУРА» И СПИСКОВ) ---
   function processArticleContent(title, rawHtml) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawHtml, 'text/html');
 
-    // Удаление мусора и служебных элементов
     const noiseSelectors = [
       '.infobox', '.navbox', '.reflist', '.reference', '.mw-editsection',
       '.toc', '.ambox', '.thumbcaption', '.catlinks', '.hatnote',
@@ -1165,7 +1121,6 @@
 
     const stopHeadings = ['Примечания', 'Литература', 'Ссылки', 'См. также', 'Источники', 'References', 'See also', 'External links', 'Further reading', 'Bibliography', '参考资料', '参考文献', '参见', '外部链接'];
     
-    // ВАЖНЫЙ ФИКС: извлекаем не только h2, h3, p, но и списки (li), определения (dd), цитаты (blockquote)!
     const bodyElements = Array.from(doc.body.querySelectorAll('h2, h3, p, li, dd, blockquote'));
 
     const rawItems = [];
@@ -1176,7 +1131,6 @@
 
       const tagName = item.tagName.toUpperCase();
 
-      // Проверка окончания статьи
       if (tagName === 'H2' || tagName === 'H3') {
         const text = item.innerText.trim();
         if (stopHeadings.some(h => text.includes(h))) {
@@ -1190,7 +1144,6 @@
         continue;
       }
 
-      // Проверяем, не лежит ли li внутри родительского li
       if (tagName === 'LI' && item.parentElement && item.parentElement.closest('li')) {
         continue;
       }
@@ -1204,13 +1157,10 @@
       }
     }
 
-    // ВАЖНЫЙ ФИКС ОШИБКИ «СТРУКТУРА: и ниже просто следующий блок»:
-    // Удаляем любые осиротевшие заголовки h2/h3, после которых сразу идет следующий заголовок или конец статьи!
     const cleanItems = [];
     for (let i = 0; i < rawItems.length; i++) {
       const current = rawItems[i];
       if (current.type === 'h2' || current.type === 'h3') {
-        // Ищем, есть ли хоть один содержательный элемент (p, li) до следующего заголовка
         let hasContent = false;
         for (let j = i + 1; j < rawItems.length; j++) {
           const next = rawItems[j];
@@ -1234,11 +1184,9 @@
       return;
     }
 
-    // РЕНДЕР И ТОКЕНИЗАЦИЯ В КНИЖНЫЙ ФОРМАТ
     renderArticleToDOM(title, cleanItems);
   }
 
-  // --- 4. РЕНДЕР В КНИЖНЫЙ ИНТЕРФЕЙС И СОДЕРЖАНИЕ (TOC) ---
   function renderArticleToDOM(title, itemsList) {
     el.articleTitle.innerText = title;
     el.articleBody.innerHTML = '';
@@ -1264,7 +1212,6 @@
     el.articleLead.innerHTML = '';
 
     itemsList.forEach((item) => {
-      // 1. Главы H2
       if (item.type === 'h2') {
         const h2 = document.createElement('h2');
         h2.innerText = item.text;
@@ -1280,7 +1227,6 @@
         return;
       }
 
-      // 2. Подразделы H3
       if (item.type === 'h3') {
         const h3 = document.createElement('h3');
         h3.innerText = item.text;
@@ -1288,15 +1234,12 @@
         return;
       }
 
-      // 3. Лид-абзац (первый крупный абзац статьи в стиле книги)
       if (!firstParagraphFound && item.type === 'p' && item.text.length > 50) {
         firstParagraphFound = true;
         el.articleLead.innerText = item.text;
         el.articleLead.style.display = 'block';
-        // Лид также входит в читаемый контент
       }
 
-      // 4. Текстовые блоки (p, li)
       const isLi = item.type === 'li';
       const domElem = document.createElement(isLi ? 'li' : 'p');
       const currentParaIdx = meaningfulParagraphs.length;
@@ -1305,7 +1248,6 @@
       const words = [];
       const fragment = document.createDocumentFragment();
 
-      // Токенизация слов с поддержкой китайского и европейских языков
       if (state.lang === 'zh' && typeof Intl !== 'undefined' && Intl.Segmenter) {
         const segmenter = new Intl.Segmenter('zh', { granularity: 'word' });
         for (const seg of segmenter.segment(item.text)) {
@@ -1374,7 +1316,6 @@
       domElem.appendChild(fragment);
 
       if (isLi) {
-        // Если это первый li в серии — оборачиваем в ul
         let lastChild = el.articleBody.lastElementChild;
         if (!lastChild || lastChild.tagName !== 'UL') {
           lastChild = document.createElement('ul');
@@ -1402,7 +1343,6 @@
     state.currentWordIdx = 0;
     state.wordsReadCount = 0;
 
-    // Метаданные статьи
     const localeMap = { ru: 'ru-RU', en: 'en-US', zh: 'zh-CN' };
     const curLoc = localeMap[state.lang] || 'ru-RU';
     el.metaWordCount.innerText = `${totalWords.toLocaleString(curLoc)} ${t.wordsUnit}`;
@@ -1410,7 +1350,6 @@
     const readingTime = Math.max(1, Math.ceil(totalWords / 160));
     el.metaReadingTime.innerText = `~${readingTime} ${t.readingTimeUnit}`;
 
-    // Формирование выпадающего «Содержания»
     chapters.forEach((chap, idx) => {
       const item = document.createElement('div');
       item.className = 'toc-item';
@@ -1423,13 +1362,11 @@
       el.tocDropdown.appendChild(item);
     });
 
-    // Инициализация боковой карточки главы
     updateChapterCard(0);
 
     showArticleView();
   }
 
-  // Обновление карточки «СЕЙЧАС ЧИТАЕМ»
   function updateChapterCard(pIdx) {
     if (!state.chapters || state.chapters.length === 0) return;
 
@@ -1470,7 +1407,6 @@
     }
   }
 
-  // --- 5. ВОЗРАСТНОЕ ПРЕДУПРЕЖДЕНИЕ 18+ ---
   function show18PlusWarning(articleName) {
     const t = TRANSLATIONS[state.lang] || TRANSLATIONS.ru;
     const wBadge = document.getElementById('warning-18plus-badge');
@@ -1505,7 +1441,6 @@
     showWelcomeView();
   });
 
-  // --- 6. УМНЫЙ ПОИСК «ЧТО БЫ ВЫ ХОТЕЛИ УЗНАТЬ?» С РЕКОМЕНДАЦИЯМИ ---
   let searchTimer = null;
   el.inputSearch.addEventListener('input', () => {
     clearTimeout(searchTimer);
@@ -1520,13 +1455,11 @@
       try {
         const wikiLang = state.lang || 'ru';
         const tObj = TRANSLATIONS[state.lang] || TRANSLATIONS.ru;
-        // 1. Прямые совпадения статей (Opensearch)
         const openUrl = `https://${wikiLang}.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(q)}&limit=5&namespace=0&format=json&origin=*`;
         const openRes = await fetch(openUrl);
         const openData = await openRes.json();
         const titles = openData[1] || [];
 
-        // 2. Варианты для чтения (рекомендации тем через morelike)
         const moreUrl = `https://${wikiLang}.wikipedia.org/w/api.php?action=query&list=search&srsearch=morelike:${encodeURIComponent(q)}&srlimit=6&format=json&origin=*`;
         const moreRes = await fetch(moreUrl);
         const moreData = await moreRes.json();
@@ -1537,7 +1470,6 @@
           return;
         }
 
-        // Рендер прямых совпадений
         el.listDirectMatches.innerHTML = '';
         titles.forEach(t => {
           const item = document.createElement('div');
@@ -1551,7 +1483,6 @@
           el.listDirectMatches.appendChild(item);
         });
 
-        // Рендер чипов рекомендаций («Варианты для чтения»)
         el.listRelatedTopics.innerHTML = '';
         if (related.length > 0) {
           related.slice(0, 5).forEach(r => {
@@ -1577,7 +1508,6 @@
     }, 280);
   });
 
-  // Закрытие выпадающего поиска при клике вне
   document.addEventListener('click', (e) => {
     if (!el.inputSearch.contains(e.target) && !el.searchSuggestions.contains(e.target)) {
       el.searchSuggestions.style.display = 'none';
@@ -1605,7 +1535,6 @@
     el.tocDropdown.style.display = isVisible ? 'none' : 'block';
   });
 
-  // --- 7. СИНТЕЗ РЕЧИ (TTS) И СИНХРОННАЯ ПОДСВЕТКА СЛОВ ---
   function startPlayback(fromBeginning = false) {
     if (state.paragraphs.length === 0) return;
     if (fromBeginning) {
@@ -1661,7 +1590,6 @@
     const para = state.paragraphs[pIdx];
     updateChapterCard(pIdx);
 
-    // Склеиваем оставшиеся слова
     const wordsToSpeak = para.words.slice(startWordIdx);
     if (wordsToSpeak.length === 0) {
       state.currentParagraphIdx++;
@@ -1679,7 +1607,6 @@
     }
     utterance.rate = state.speechRate;
 
-    // Синхронная подсветка слов через onboundary
     utterance.onboundary = (event) => {
       if (event.name === 'word') {
         const charIndex = event.charIndex;
@@ -1728,13 +1655,11 @@
     const wordObj = para.words[wIdx];
     wordObj.element.classList.add('active');
 
-    // Плавный скролл при необходимости
     const rect = wordObj.element.getBoundingClientRect();
     if (rect.top < 120 || rect.bottom > window.innerHeight - 140) {
       wordObj.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Обновление прогресс-бара плеера
     let passedWords = 0;
     for (let i = 0; i < pIdx; i++) {
       passedWords += state.paragraphs[i].words.length;
@@ -1789,7 +1714,6 @@
     }
   }
 
-  // --- 8. ИИ-АНАЛОГИИ (OPENAI GPT-4O MINI / GEMINI) ---
   async function triggerAnalogy(pIdx, wIdx) {
     pausePlayback();
     state.isExplaining = true;
@@ -1973,27 +1897,22 @@ Write in engaging, vivid English, ready for immediate speech narration.
       throw new Error(typeof t.errorNoApiKey === 'function' ? t.errorNoApiKey(providerName) : `Не указан API-ключ для ${providerName}. Укажите его в настройках.`);
     }
 
-    // 1. OpenAI
     if (state.aiProvider === 'openai') {
       return await callOpenAICompatibleChat('https://api.openai.com/v1/chat/completions', key, 'gpt-4o-mini', prompt, term);
     }
 
-    // 2. Groq
     if (state.aiProvider === 'groq') {
       return await callOpenAICompatibleChat('https://api.groq.com/openai/v1/chat/completions', key, 'llama-3.3-70b-versatile', prompt, term);
     }
 
-    // 3. DeepSeek
     if (state.aiProvider === 'deepseek') {
       return await callOpenAICompatibleChat('https://api.deepseek.com/chat/completions', key, 'deepseek-chat', prompt, term);
     }
 
-    // 4. OpenRouter
     if (state.aiProvider === 'openrouter') {
       return await callOpenAICompatibleChat('https://openrouter.ai/api/v1/chat/completions', key, 'openai/gpt-4o-mini', prompt, term);
     }
 
-    // 5. BotHub (OpenAI protocol)
     if (state.aiProvider === 'bothub') {
       const { content } = await callBotHubChat(
         key,
@@ -2004,7 +1923,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       return parseAIResponse(content, term);
     }
 
-    // 6. Anthropic Claude
     if (state.aiProvider === 'claude') {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -2031,7 +1949,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       return parseAIResponse(rawText, term);
     }
 
-    // 7. Google Gemini
     if (state.aiProvider === 'gemini') {
       const models = ['gemini-2.5-flash', 'gemini-1.5-flash'];
       let lastErr = null;
@@ -2190,7 +2107,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     resumePlayback();
   });
 
-  // --- 9. НАСТРОЙКИ (BOTHUB, OPENAI, GEMINI, 18+ ФИЛЬТР) ---
   function openSettingsModal() {
     updateSettingsModalTranslations();
     if (el.settingsProvider) el.settingsProvider.value = state.aiProvider;
@@ -2226,7 +2142,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     el.settingsProvider.addEventListener('change', updateSettingsProviderDisplay);
   }
 
-  // Переключение видимости паролей для всех провайдеров
   const togglePairs = [
     { btn: el.toggleSettingsOpenai, input: el.settingsOpenaiKey },
     { btn: el.toggleSettingsGemini, input: el.settingsGeminiKey },
@@ -2272,7 +2187,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     });
   }
 
-  // Тестирование подключения к выбранному провайдеру
   async function testProviderConnection(provider, key) {
     if (provider === 'openai') {
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -2381,7 +2295,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     });
   }
 
-  // --- 10. ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ (VIEWS) И СКРЫТИЕ ШАПКИ ---
   function setTopbarHidden(hidden) {
     const topbar = document.getElementById('topbar');
     const sensor = document.getElementById('topbar-sensor');
@@ -2453,7 +2366,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
 
   el.btnCloseArticle.addEventListener('click', showWelcomeView);
 
-  // --- 11. ЭЛЕМЕНТЫ УПРАВЛЕНИЯ ПЛЕЕРОМ ---
   el.btnPlayPause.addEventListener('click', () => {
     if (state.isPlaying) {
       pausePlayback();
@@ -2468,7 +2380,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     triggerAnalogy(state.currentParagraphIdx, state.currentWordIdx);
   });
 
-  // Клик по таймлайну прогресса для перемотки
   el.progressTrack.addEventListener('click', (e) => {
     if (state.totalWordsCount === 0) return;
     const rect = el.progressTrack.getBoundingClientRect();
@@ -2499,14 +2410,12 @@ Write in engaging, vivid English, ready for immediate speech narration.
     }
   });
 
-  // Скорость
   el.selectRate.addEventListener('change', (e) => {
     state.speechRate = parseFloat(e.target.value);
     localStorage.setItem('wv_speech_rate', state.speechRate);
     if (state.isPlaying) speakParagraph(state.currentParagraphIdx, state.currentWordIdx);
   });
 
-  // Голос
   el.selectVoice.addEventListener('change', (e) => {
     const uri = e.target.value;
     state.selectedVoice = (state.voices || []).find(v => v.voiceURI === uri);
@@ -2516,7 +2425,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     if (state.isPlaying) speakParagraph(state.currentParagraphIdx, state.currentWordIdx);
   });
 
-  // Быстрые темы
   el.presetChips.forEach(chip => {
     chip.addEventListener('click', () => {
       const topic = chip.dataset.topic;
@@ -2531,7 +2439,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     loadWikipediaArticle(startTopic);
   });
 
-  // Переключение языка (🇷🇺 RU, 🇺🇸 EN, 🇨🇳 ZH)
   document.querySelectorAll('#lang-switch .lang-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const lang = btn.dataset.lang;
@@ -2541,7 +2448,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     });
   });
 
-  // Горячие клавиши
   window.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
@@ -2562,14 +2468,10 @@ Write in engaging, vivid English, ready for immediate speech narration.
     }
   });
 
-
-
   async function loadConfigFromFile() {
     try {
-      // 1. Сначала пробуем загрузить локальный файл с ключами (игнорируется в Git)
       let res = await fetch('config.local.json');
       if (!res.ok) {
-        // 2. Если локальный отсутствует, читаем шаблонный config.json
         res = await fetch('config.json');
       }
       if (res.ok) {
@@ -2609,11 +2511,9 @@ Write in engaging, vivid English, ready for immediate speech narration.
         state.apiKey = getActiveApiKey();
       }
     } catch (e) {
-      // Игнорируем, если конфигурационный файл отсутствует или недоступен
     }
   }
 
-  // --- 13. УПРАВЛЕНИЕ ТЕМОЙ (СВЕТЛАЯ / ТЁМНАЯ) ---
   function applyTheme(theme, save = true) {
     state.theme = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', state.theme);
@@ -2646,7 +2546,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       });
     }
 
-    // Системное предпочтение (если пользователь ещё не выбрал вручную)
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('wv_theme')) {
@@ -2656,7 +2555,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     }
   }
 
-  // --- 14. ТАЙПРАЙТЕР ---
   let typewriterTimeout = null;
   function startTypewriter(text) {
     const elTypewriter = document.getElementById('typewriter-word');
@@ -2678,7 +2576,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     typewriterTimeout = setTimeout(typeLoop, 250);
   }
 
-  // --- 14. АВТОМАТИЧЕСКОЕ ПЛАВНОЕ ОТКРЫТИЕ/СКРЫТИЕ ШАПКИ (AUTO-REVEAL) ---
   function initAutoRevealTopbar() {
     const topbar = document.getElementById('topbar');
     const sensor = document.getElementById('topbar-sensor');
@@ -2691,7 +2588,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     }
 
     function show() {
-      // Шапка доступна ТОЛЬКО на приветственном экране (главное меню)
       if (!isWelcomeActive()) return;
       if (hideTimeout) {
         clearTimeout(hideTimeout);
@@ -2705,7 +2601,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       if (hideTimeout) clearTimeout(hideTimeout);
       hideTimeout = setTimeout(() => {
         if (!isWelcomeActive()) return;
-        // Не скрываем, если фокус в строке поиска или открыты подсказки
         if (el.inputSearch && document.activeElement === el.inputSearch) return;
         if (el.searchSuggestions && el.searchSuggestions.style.display !== 'none') return;
         if (topbar.matches(':hover') || (sensor && sensor.matches(':hover'))) return;
@@ -2713,7 +2608,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       }, 350);
     }
 
-    // Слушатели наведения на сенсор и шапку
     if (sensor) {
       sensor.addEventListener('mouseenter', show);
       sensor.addEventListener('mouseleave', scheduleHide);
@@ -2721,7 +2615,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     topbar.addEventListener('mouseenter', show);
     topbar.addEventListener('mouseleave', scheduleHide);
 
-    // Глобальное плавное отслеживание движения мыши к верху экрана
     window.addEventListener('mousemove', (e) => {
       if (!isWelcomeActive()) return;
       if (e.clientY <= 28) {
@@ -2731,7 +2624,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       }
     });
 
-    // Удержание шапки при фокусе в поиске
     if (el.inputSearch) {
       el.inputSearch.addEventListener('focus', show);
       el.inputSearch.addEventListener('blur', () => {
@@ -2739,7 +2631,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       });
     }
 
-    // Клик по настройкам
     if (el.btnOpenSettings) {
       el.btnOpenSettings.addEventListener('click', show);
     }
@@ -2748,9 +2639,7 @@ Write in engaging, vivid English, ready for immediate speech narration.
     }
   }
 
-  // --- 14. PWA SERVICE WORKER & УСТАНОВКА НА ГЛАВНЫЙ ЭКРАН ---
   function initPwa() {
-    // 1. Регистрация Service Worker для оффлайн/быстрого запуска
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
@@ -2763,7 +2652,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
       });
     }
 
-    // 2. Обработка нативного промпта установки
     let deferredPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -2792,7 +2680,6 @@ Write in engaging, vivid English, ready for immediate speech narration.
     });
   }
 
-  // Запуск
   initTheme();
   loadConfigFromFile();
   setLanguage(state.lang);

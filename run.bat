@@ -86,7 +86,6 @@ if "%GROQ_KEY%"=="" if "%BOTHUB_KEY%"=="" if "%DEEPSEEK_KEY%"=="" if "%OPENAI_KE
         set /p GEMINI_KEY=">>> Вставьте Google Gemini Key (AIzaSy...): "
     )
     
-    rem Сохраняем в config.env
     (
         echo AI_PROVIDER=%AI_PROVIDER%
         if not "%GROQ_KEY%"=="" echo GROQ_API_KEY=%GROQ_KEY%
@@ -101,7 +100,6 @@ if "%GROQ_KEY%"=="" if "%BOTHUB_KEY%"=="" if "%DEEPSEEK_KEY%"=="" if "%OPENAI_KE
     echo.
 )
 
-rem Синхронизируем config.local.json для Web Reader (безопасно, в .gitignore)
 (
     echo {
     echo   "AI_PROVIDER": "%AI_PROVIDER%",

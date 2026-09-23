@@ -1,48 +1,36 @@
-/* ==========================================================================
-   WikiVision — Slate Light + Dark Design System  v27.0
-   ========================================================================== */
-
 :root {
   color-scheme: light;
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Onest', 'DM Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* === SLATE LIGHT PALETTE === */
   --bg-core:          #ffffff;
   --bg-surface:       #ffffff;
   --bg-surface-glass: rgba(255, 255, 255, 0.90);
   --border-subtle:    rgba(15, 23, 42, 0.08);
   --border-active:    rgba(37, 99, 235, 0.4);
 
-  /* Primary Accent: Deep Cobalt Blue */
   --accent-primary:       #2563eb;
   --accent-primary-hover: #1d4ed8;
   --accent-primary-glow:  rgba(37, 99, 235, 0.18);
 
-  /* Secondary Accent: Sky Blue */
   --accent-cyan:       #0ea5e9;
   --accent-cyan-glow:  rgba(14, 165, 233, 0.16);
 
-  /* Warm Accent: Amber */
   --accent-amber:      #d97706;
   --accent-amber-soft: rgba(217, 119, 6, 0.12);
 
-  /* Status Accents */
   --accent-live:       #059669;
   --accent-live-glow:  rgba(5, 150, 105, 0.18);
   --accent-warning:    #dc2626;
 
-  /* Editorial Text Tokens */
   --text-main:  #0f172a;
   --text-muted: #475569;
   --text-dim:   #94a3b8;
 
-  /* Specular & Physics Tokens */
   --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.9);
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Compatibility aliases */
   --accent-mint:        #059669;
   --accent-mint-hover:  #047857;
   --accent-mint-glow:   var(--accent-live-glow);
@@ -50,23 +38,18 @@
   --accent-gold:        var(--accent-amber);
   --accent-purple:      #7c3aed;
 
-  /* Theme transition speed */
   --theme-transition: 0.35s ease;
 }
 
-/* ============================================================
-   DARK THEME — applied via [data-theme="dark"] on <html>
-   ============================================================ */
 [data-theme="dark"] {
   color-scheme: dark;
-  /* Base surfaces */
+  
   --bg-core:          #0a0f1e;
   --bg-surface:       #111827;
   --bg-surface-glass: rgba(17, 24, 39, 0.92);
   --border-subtle:    rgba(255, 255, 255, 0.08);
   --border-active:    rgba(99, 145, 255, 0.5);
 
-  /* Accents stay vibrant but slightly brighter */
   --accent-primary:       #4f8eff;
   --accent-primary-hover: #6fa3ff;
   --accent-primary-glow:  rgba(79, 142, 255, 0.24);
@@ -81,15 +64,12 @@
   --accent-live-glow:  rgba(16, 185, 129, 0.22);
   --accent-warning:    #f87171;
 
-  /* Text tokens */
   --text-main:  #f0f4ff;
   --text-muted: #94a3b8;
   --text-dim:   #475569;
 
-  /* Glass specular dark */
   --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-  /* Aliases */
   --accent-mint:        #10b981;
   --accent-mint-hover:  #059669;
   --accent-mint-glow:   var(--accent-live-glow);
@@ -122,7 +102,6 @@ button {
   user-select: none;
 }
 
-/* Button click tactile feedback (taste-skill physics) */
 button:active, 
 .primary-cta:active, 
 .header-button:active, 
@@ -135,7 +114,6 @@ button:active,
   transition: transform 0.08s ease;
 }
 
-/* Accessible focus rings */
 button:focus-visible, 
 input:focus-visible, 
 select:focus-visible {
@@ -150,14 +128,13 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-/* --- APPLE-STYLE MESH GRADIENT BACKGROUND --- */
 .aurora-canvas {
   position: fixed;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  /* Pure white base — Apple always starts from white */
+  
   background: #ffffff;
   transition: background var(--theme-transition);
 }
@@ -187,7 +164,6 @@ h1, h2, h3 {
   mix-blend-mode: screen;
 }
 
-/* Apple Mesh: large blurred color blobs, very subtle, layered */
 .aurora-orb {
   position: absolute;
   border-radius: 50%;
@@ -195,7 +171,6 @@ h1, h2, h3 {
   pointer-events: none;
 }
 
-/* Orb 1: Apple Blue — левый верхний (как на apple.com iPhone секции) */
 .aurora-orb-1 {
   width: 900px;
   height: 900px;
@@ -209,7 +184,6 @@ h1, h2, h3 {
   animation: float-orb-1 40s ease-in-out infinite alternate;
 }
 
-/* Orb 2: Apple Lavender — правый нижний (iOS / macOS Sonoma tones) */
 .aurora-orb-2 {
   width: 820px;
   height: 820px;
@@ -223,7 +197,6 @@ h1, h2, h3 {
   animation: float-orb-2 46s ease-in-out infinite alternate;
 }
 
-/* Orb 3: Apple Teal — центр левый (macOS desktop gradient) */
 .aurora-orb-3 {
   width: 700px;
   height: 700px;
@@ -237,7 +210,6 @@ h1, h2, h3 {
   animation: float-orb-3 52s ease-in-out infinite alternate;
 }
 
-/* Orb 4: Apple Rose — правый верхний (Vision Pro / iOS 18 tones) */
 .aurora-orb-4 {
   width: 620px;
   height: 620px;
@@ -251,7 +223,6 @@ h1, h2, h3 {
   animation: float-orb-4 36s ease-in-out infinite alternate;
 }
 
-/* Orb 5: Warm Peach — нижний центр (дополнительная теплота) */
 .aurora-orb-5 {
   width: 560px;
   height: 560px;
@@ -265,11 +236,10 @@ h1, h2, h3 {
   animation: float-orb-3 44s 8s ease-in-out infinite alternate;
 }
 
-/* Тонкое зерно поверх — Apple использует шум для depth */
 .aurora-grain {
   position: absolute;
   inset: 0;
-  /* SVG-шум — более реалистичный чем dot-grid */
+  
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   background-size: 256px 256px;
   opacity: 0.6;
@@ -302,7 +272,6 @@ h1, h2, h3 {
   100% { transform: translate3d(35px, 40px, 0) scale(1.02); }
 }
 
-
 .app-shell {
   position: relative;
   z-index: 1;
@@ -311,7 +280,6 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
-/* --- СЕНСОРНАЯ ЗОНА И АВТОМАТИЧЕСКИ ПЛАВНО СКРЫВАЕМАЯ ШАПКА (AUTO-REVEAL TOPBAR) --- */
 .topbar-sensor {
   position: fixed;
   top: 0;
@@ -323,7 +291,6 @@ h1, h2, h3 {
   cursor: default;
 }
 
-/* Элегантная тонкая черта-индикатор по центру вверху экрана */
 .topbar-sensor::after {
   content: '';
   position: absolute;
@@ -362,7 +329,6 @@ h1, h2, h3 {
   gap: 24px;
   padding: 0 24px;
 
-  /* Плавное скрытое состояние по умолчанию — сдвинута вверх за пределы экрана */
   transform: translateY(-100%);
   opacity: 0;
   pointer-events: none;
@@ -378,7 +344,6 @@ h1, h2, h3 {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 8px 24px -4px rgba(0, 0, 0, 0.3);
 }
 
-/* Плавное открытое состояние: при наведении на сенсор, саму панель или когда активен класс .topbar-visible */
 .topbar-sensor:hover + .app-shell .topbar,
 .topbar-sensor:hover ~ .app-shell .topbar,
 .topbar:hover,
@@ -388,7 +353,6 @@ h1, h2, h3 {
   pointer-events: auto;
 }
 
-/* Полное скрытие шапки и сенсора в режиме чтения статьи */
 .topbar.topbar-hidden,
 .topbar-sensor.topbar-hidden {
   display: none !important;
@@ -424,7 +388,6 @@ h1, h2, h3 {
   flex-shrink: 0;
 }
 
-/* Wikipedia W logo circle */
 .brand-wiki-logo {
   display: flex;
   align-items: center;
@@ -434,7 +397,6 @@ h1, h2, h3 {
 }
 .brand:hover .brand-wiki-logo { opacity: 1; }
 
-/* × separator */
 .brand-sep {
   font-size: 13px;
   font-weight: 400;
@@ -445,7 +407,6 @@ h1, h2, h3 {
   user-select: none;
 }
 
-/* WikiVision text */
 .brand-title {
   font-family: var(--font-heading);
   font-weight: 800;
@@ -460,7 +421,6 @@ h1, h2, h3 {
   -webkit-text-fill-color: #2563eb;
 }
 
-/* ✓ checkmark badge */
 .brand-check {
   display: flex;
   align-items: center;
@@ -478,13 +438,11 @@ h1, h2, h3 {
   border-color: rgba(37, 99, 235, 0.45);
 }
 
-/* Plain dark heading text */
 .h1-plain {
   color: #0f172a;
   -webkit-text-fill-color: #0f172a;
 }
 
-/* --- УМНЫЙ ПОИСК В ШАПКЕ (ПО ЦЕНТРУ) --- */
 .search-wrap {
   flex: 0 1 580px;
   width: 100%;
@@ -555,7 +513,6 @@ h1, h2, h3 {
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* ВЫПАДАЮЩИЙ СПИСОК ПОИСКА И РЕКОМЕНДАЦИЙ */
 .search-dropdown {
   position: absolute;
   top: 54px;
@@ -641,7 +598,6 @@ h1, h2, h3 {
   transform: translateY(-1px);
 }
 
-/* ДЕЙСТВИЯ В ШАПКЕ */
 .header-actions {
   display: flex;
   align-items: center;
@@ -649,7 +605,6 @@ h1, h2, h3 {
   flex-shrink: 0;
 }
 
-/* ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ (LANG SWITCH — CIRCULAR COINS) */
 .lang-switch {
   display: flex;
   align-items: center;
@@ -745,7 +700,6 @@ h1, h2, h3 {
   color: var(--text-main);
 }
 
-/* === THEME TOGGLE BUTTON === */
 .theme-toggle {
   position: relative;
   display: flex;
@@ -773,7 +727,6 @@ h1, h2, h3 {
   outline-offset: 2px;
 }
 
-/* Sliding knob */
 .theme-toggle-knob {
   position: absolute;
   left: 3px;
@@ -802,7 +755,6 @@ h1, h2, h3 {
   transition: transform 0.3s var(--ease-spring);
 }
 
-/* Track icons */
 .theme-toggle-icons {
   position: absolute;
   inset: 0;
@@ -824,7 +776,6 @@ h1, h2, h3 {
   transition: opacity 0.25s ease;
 }
 
-/* DARK STATE */
 [data-theme="dark"] .theme-toggle {
   background: rgba(30, 41, 59, 0.85);
   border-color: rgba(255, 255, 255, 0.14);
@@ -870,8 +821,6 @@ h1, h2, h3 {
   white-space: nowrap;
 }
 
-
-/* === HERO — WELCOME SCREEN === */
 .welcome-screen {
   min-height: 100dvh;
   max-width: 1180px;
@@ -883,7 +832,6 @@ h1, h2, h3 {
   gap: 0;
 }
 
-/* SPLIT / HERO MAIN CONTENT */
 .hero-split {
   display: flex;
   flex-direction: column;
@@ -900,8 +848,6 @@ h1, h2, h3 {
   width: 100%;
 }
 
-
-/* HERO TITLE — left-aligned */
 .hero-title {
   font-family: var(--font-heading);
   font-weight: 900;
@@ -917,7 +863,7 @@ h1, h2, h3 {
   color: #0f172a;
   text-shadow: none;
 }
-/* Cursor */
+
 .hero-title-line1::after {
   content: '';
   display: inline-block;
@@ -933,7 +879,6 @@ h1, h2, h3 {
   font-size: clamp(44px, 6.5vw, 80px);
 }
 
-/* HERO SUBTEXT */
 .hero-sub {
   color: var(--text-muted);
   font-size: 18px;
@@ -945,7 +890,6 @@ h1, h2, h3 {
   animation: page-in 0.6s 0.2s ease-out both;
 }
 
-/* CTA ROW */
 .hero-cta-row {
   display: flex;
   flex-wrap: wrap;
@@ -1008,7 +952,6 @@ h1, h2, h3 {
   transform: translateY(-1px);
 }
 
-/* STATS ROW — flat, no box */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -1045,12 +988,6 @@ h1, h2, h3 {
   margin: 0 24px 0 0;
 }
 
-
-
-
-/* =========================================
-   FEATURE CARDS — light surface
-   ========================================= */
 .feature-label {
   font-family: var(--font-heading);
   font-size: 12px;
@@ -1069,7 +1006,7 @@ h1, h2, h3 {
   text-align: left;
   animation: page-in 0.6s 0.5s ease-out both;
 }
-/* Wide feature card occupies col 1 */
+
 .feature-card.feature-wide {
   grid-row: span 1;
 }
@@ -1162,7 +1099,6 @@ h1, h2, h3 {
   color: var(--text-muted);
 }
 
-/* Typewriter */
 .typewriter {
   --caret: var(--accent-primary);
   color: var(--accent-primary);
@@ -1175,7 +1111,6 @@ h1, h2, h3 {
   50% { opacity: 0; }
 }
 
-/* RESPONSIVE */
 @media (max-width: 960px) {
   .hero-split {
     grid-template-columns: 1fr;
@@ -1217,11 +1152,6 @@ h1, h2, h3 {
   .eyebrow-dot { animation: none; }
 }
 
-
-
-
-
-/* --- 2. LOADING SCREEN --- */
 .loading-screen {
   min-height: calc(100vh - 72px);
   display: flex;
@@ -1297,7 +1227,6 @@ h1, h2, h3 {
   gap: 6px;
 }
 
-/* --- 3. ARTICLE PAGE (КНИЖНЫЙ МАКЕТ) --- */
 .article-page {
   max-width: 1040px;
   margin: 0 auto;
@@ -1405,7 +1334,6 @@ h1, h2, h3 {
   margin-left: 6px;
 }
 
-/* СОДЕРЖАНИЕ (TABLE OF CONTENTS) */
 .toc-wrapper {
   position: relative;
 }
@@ -1472,7 +1400,6 @@ h1, h2, h3 {
   font-weight: 400;
 }
 
-/* ДВУХКОЛОНОЧНЫЙ МАКЕТ */
 .article-layout {
   display: grid;
   grid-template-columns: 1fr 220px;
@@ -1508,7 +1435,6 @@ h1, h2, h3 {
   margin: 0 0 24px;
 }
 
-/* СПИСКИ (LI) В ТЕКСТЕ КНИГИ */
 .article-copy ul, .article-copy ol {
   margin: 0 0 24px;
   padding-left: 0;
@@ -1525,7 +1451,6 @@ h1, h2, h3 {
   border-radius: 4px;
 }
 
-/* СИНХРОННАЯ РАМКА СЛОВ (WORD-BOUNDARY SYNC) */
 .wikivision-word {
   position: relative;
   display: inline-block;
@@ -1549,7 +1474,6 @@ h1, h2, h3 {
   box-shadow: 0 0 14px var(--accent-primary-glow);
 }
 
-/* БОКОВАЯ КАРТОЧКА ГЛАВЫ (BOOK CHAPTER TRACKER) */
 .chapter-card {
   position: sticky;
   top: 92px;
@@ -1592,7 +1516,6 @@ h1, h2, h3 {
   font-size: 12px;
 }
 
-/* --- ПЛАВАЮЩИЙ ПЛЕЕР (BOOK PLAYER BAR) --- */
 .player {
   position: fixed;
   z-index: 40;
@@ -1736,7 +1659,6 @@ h1, h2, h3 {
   overflow: hidden;
 }
 
-/* --- МОДАЛЬНЫЕ ОКНА (MODALS) — SLATE LIGHT DESIGN SYSTEM --- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1962,7 +1884,6 @@ h1, h2, h3 {
   transform: translateY(-1px);
 }
 
-/* КАРТОЧКИ ИИ-ОТВЕТА */
 .insight-card {
   padding: 16px;
   border-radius: 14px;
@@ -1993,7 +1914,6 @@ h1, h2, h3 {
   margin: 0;
 }
 
-/* ФОРМА НАСТРОЕК */
 .input-field {
   margin-bottom: 20px;
 }
@@ -2014,7 +1934,6 @@ h1, h2, h3 {
   margin-top: 12px;
 }
 
-/* Provider section separator */
 .provider-section-divider {
   margin: 4px 0 20px;
   padding-top: 16px;
@@ -2150,7 +2069,6 @@ h1, h2, h3 {
   line-height: 1.5;
 }
 
-/* ПЕРЕКЛЮЧАТЕЛЬ (SWITCH) */
 .switch-field {
   margin-top: 20px;
 }
@@ -2199,7 +2117,6 @@ h1, h2, h3 {
   font-weight: 500;
 }
 
-/* АНИМАЦИИ */
 @keyframes float {
   0%, 100% { transform: rotate(-6deg) translateY(0); }
   50% { transform: rotate(-2deg) translateY(-8px); }
@@ -2219,7 +2136,6 @@ h1, h2, h3 {
   animation: page-in 0.5s ease-out both;
 }
 
-/* --- ФУТЕР И ДИСКЛЕЙМЕР --- */
 .app-footer {
   margin-top: auto;
   border-top: 1px solid var(--border-subtle);
@@ -2278,7 +2194,6 @@ h1, h2, h3 {
   box-shadow: 0 0 10px var(--accent-primary-glow);
 }
 
-/* Кнопка «Скачать на Android» в футере */
 .footer-download-btn {
   display: inline-flex;
   align-items: center;
@@ -2361,7 +2276,6 @@ h1, h2, h3 {
   transition: color var(--theme-transition);
 }
 
-/* --- АДАПТИВНОСТЬ (HIGH-END MOBILE & TABLET ARCHITECTURE) --- */
 @keyframes drawer-slide-up {
   from {
     transform: translateY(100%);
@@ -2374,20 +2288,20 @@ h1, h2, h3 {
 }
 
 @media (max-width: 820px) {
-  /* Спокойный, мягкий и чистый фон на телефонах и планшетах (без вырвиглазных пятен) */
+  
   .aurora-canvas {
     opacity: 0.20 !important;
   }
   .aurora-orb-3,
   .aurora-orb-4,
   .aurora-orb-5 {
-    display: none !important; /* Убираем резкие розовые и персиковые пятна на смартфонах */
+    display: none !important; 
   }
   .aurora-orb-1,
   .aurora-orb-2 {
     filter: blur(50px) !important;
     transform: scale(0.6) !important;
-    animation: none !important; /* Отключаем тяжелую анимацию 900px блобов для экономии батареи и спокойного фона */
+    animation: none !important; 
     opacity: 0.35 !important;
   }
   .aurora-grain {
@@ -2401,7 +2315,6 @@ h1, h2, h3 {
     display: none !important;
   }
 
-  /* Safe Area Sticky Header */
   .topbar {
     position: sticky;
     top: 0;
@@ -2460,7 +2373,7 @@ h1, h2, h3 {
   }
   .search-input {
     height: 44px;
-    font-size: 16px !important; /* Prevents auto-zoom in iOS Safari */
+    font-size: 16px !important; 
     padding-left: 42px;
   }
   .search-icon-left {
@@ -2482,7 +2395,6 @@ h1, h2, h3 {
     z-index: 110;
   }
 
-  /* Article Page Mobile Layout */
   .article-page {
     padding: 16px 16px calc(200px + env(safe-area-inset-bottom, 0px)) !important;
   }
@@ -2545,7 +2457,6 @@ h1, h2, h3 {
     font-size: 16px;
   }
 
-  /* Table of Contents as Mobile Bottom Sheet Drawer */
   .toc-dropdown {
     position: fixed !important;
     top: auto !important;
@@ -2578,7 +2489,6 @@ h1, h2, h3 {
     align-items: center;
   }
 
-  /* Docked Native Mobile Audio Player (Пристыкованный снизу плеер) */
   .player {
     position: fixed;
     left: 0 !important;
@@ -2608,7 +2518,7 @@ h1, h2, h3 {
     border-top-color: rgba(255, 255, 255, 0.10) !important;
     box-shadow: 0 -8px 36px rgba(0, 0, 0, 0.5) !important;
   }
-  /* Ряд 1: Основные действия воспроизведения (50% / 50%) */
+  
   .play-button {
     order: 1;
     flex: 1 1 calc(50% - 5px);
@@ -2632,7 +2542,7 @@ h1, h2, h3 {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /* Ряд 2: Настройки аудио (Скорость + Выбор голоса диктора) */
+  
   .player-setting-speed {
     order: 3;
     display: flex !important;
@@ -2681,7 +2591,7 @@ h1, h2, h3 {
     white-space: nowrap;
     overflow: hidden;
   }
-  /* Ряд 3: Прогресс-бар и статус */
+  
   .player-info {
     order: 5;
     flex-basis: 100%;
@@ -2698,7 +2608,6 @@ h1, h2, h3 {
     background: rgba(15, 23, 42, 0.08);
   }
 
-  /* Modals as Native Bottom Sheet Drawers */
   .modal-overlay {
     align-items: flex-end !important;
     padding: 0 !important;
@@ -2810,19 +2719,12 @@ h1, h2, h3 {
   }
 }
 
-
-/* ==========================================================================
-   DARK THEME — Component-level overrides for hardcoded light values
-   ========================================================================== */
-
-/* HERO */
 [data-theme="dark"] .hero-title-line1 { color: #f0f4ff; }
 [data-theme="dark"] .brand-title { color: #f0f4ff; -webkit-text-fill-color: #f0f4ff; }
 [data-theme="dark"] .brand:hover .brand-title { color: var(--accent-primary); -webkit-text-fill-color: var(--accent-primary); }
 [data-theme="dark"] .topbar-sensor::after { background: rgba(255,255,255,0.2); }
 [data-theme="dark"] .topbar-sensor:hover::after { background: var(--accent-primary); }
 
-/* ARTICLE TEXT */
 [data-theme="dark"] .article-copy h2 { color: var(--text-main); border-bottom-color: var(--border-subtle); }
 [data-theme="dark"] .article-copy h3 { color: #c4cfe6; }
 [data-theme="dark"] .article-copy p { color: #c4cfe6; }
@@ -2834,14 +2736,12 @@ h1, h2, h3 {
 [data-theme="dark"] .chapter-line { background: rgba(255,255,255,0.07); }
 [data-theme="dark"] .btn-text-close:hover { background: rgba(255,255,255,0.07); color: var(--text-main); }
 
-/* TOC */
 [data-theme="dark"] .outline-button { background: rgba(17,24,39,0.9); border-color: rgba(255,255,255,0.1); color: var(--text-muted); }
 [data-theme="dark"] .outline-button:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); color: var(--text-main); }
 [data-theme="dark"] .toc-dropdown { background: #111827; border-color: rgba(255,255,255,0.09); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
 [data-theme="dark"] .toc-item { color: var(--text-muted); }
 [data-theme="dark"] .toc-item:hover { background: rgba(79,142,255,0.08); }
 
-/* PLAYER BAR */
 [data-theme="dark"] .player {
   background: rgba(17, 24, 39, 0.92);
   border-color: rgba(255, 255, 255, 0.07);
@@ -2852,7 +2752,6 @@ h1, h2, h3 {
 [data-theme="dark"] .hint-popover { background: rgba(17,24,39,0.97); border-color: rgba(255,255,255,0.08); color: var(--text-muted); }
 [data-theme="dark"] .track { background: rgba(255,255,255,0.08); }
 
-/* MODALS */
 [data-theme="dark"] .modal-overlay { background: rgba(0,0,0,0.65); }
 [data-theme="dark"] .modal-card {
   background: #111827;
@@ -2867,7 +2766,6 @@ h1, h2, h3 {
 [data-theme="dark"] .modal-term { color: var(--text-main); }
 [data-theme="dark"] .modal-warning-desc { color: var(--text-muted); }
 
-/* FORMS */
 [data-theme="dark"] .select-modern {
   background-color: #1a2438;
   border-color: rgba(255,255,255,0.12);
@@ -2885,7 +2783,6 @@ h1, h2, h3 {
 [data-theme="dark"] .provider-section-divider { border-top-color: rgba(255,255,255,0.08); }
 [data-theme="dark"] .switch-slider { background: #2d3748; }
 
-/* CARDS & MISC */
 [data-theme="dark"] .insight-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.07); }
 [data-theme="dark"] .insight-card p { color: #c4cfe6; }
 [data-theme="dark"] .btn-secondary { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: var(--text-muted); }
@@ -2896,7 +2793,6 @@ h1, h2, h3 {
 [data-theme="dark"] .hero-stat-label { color: var(--text-muted); }
 [data-theme="dark"] .hero-stat-num { color: var(--text-main); }
 
-/* FOOTER DARK OVERRIDES */
 [data-theme="dark"] .app-footer {
   background: rgba(10, 15, 30, 0.90);
   border-top-color: rgba(255, 255, 255, 0.08);
@@ -2936,11 +2832,6 @@ h1, h2, h3 {
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* ==========================================================================
-   ENHANCED DARK & LIGHT THEME FIXES (Contrast, Selects & Star Icon)
-   ========================================================================== */
-
-/* NATIVE SELECT & OPTION STYLING — LIGHT MODE */
 select,
 .select-chip,
 .select-modern {
@@ -2953,7 +2844,6 @@ select option,
   color: #0f172a;
 }
 
-/* NATIVE SELECT & OPTION STYLING — DARK MODE (Fixes blinding white OS dropdown) */
 [data-theme="dark"] select,
 [data-theme="dark"] .select-chip,
 [data-theme="dark"] .select-modern {
@@ -2985,7 +2875,6 @@ select option,
   color: #ffffff !important;
 }
 
-/* FEATURE CARDS — HIGH CONTRAST IN DARK MODE (Fixes invisible dark titles) */
 [data-theme="dark"] .feature-card {
   background: rgba(17, 24, 39, 0.90) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -3023,7 +2912,6 @@ select option,
   color: #94a3b8 !important;
 }
 
-/* PRESET CHIPS & POPULAR TOPICS */
 [data-theme="dark"] .preset-chip {
   background: rgba(255, 255, 255, 0.08) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -3051,7 +2939,6 @@ select option,
   background: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* TOC DROPDOWN IN DARK MODE */
 [data-theme="dark"] .toc-item {
   color: #cbd5e1 !important;
 }
@@ -3060,7 +2947,6 @@ select option,
   color: #ffffff !important;
 }
 
-/* DARK MODE SCROLLBARS */
 [data-theme="dark"] ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -3075,4 +2961,3 @@ select option,
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: #4a5568;
 }
-
