@@ -210,7 +210,7 @@ wiki-vision/
 
 ## 👥 Authors & Co-Authors
 
-- **Lead Architect & Developer:** [Rakysha](https://github.com/Rakysha)
+- **Creator & Lead Architect:** **Mr. Angelo** ([@Rakysha](https://github.com/Rakysha)) · *he/him*
 - **AI Co-Author & Pair Programmer:** [Claude](https://www.anthropic.com) (Anthropic)
 
 ---
