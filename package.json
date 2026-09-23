@@ -17,10 +17,22 @@
     "pwa",
     "accessibility"
   ],
-  "homepage": "https://github.com/wikivision/wiki-vision#readme",
+  "homepage": "https://github.com/Rakysha/wiki-vision#readme",
   "bugs": {
-    "url": "https://github.com/wikivision/wiki-vision/issues"
+    "url": "https://github.com/Rakysha/wiki-vision/issues"
   },
+  "author": "Rakysha (https://github.com/Rakysha)",
+  "contributors": [
+    {
+      "name": "Rakysha",
+      "url": "https://github.com/Rakysha"
+    },
+    {
+      "name": "Claude",
+      "url": "https://www.anthropic.com",
+      "email": "noreply@anthropic.com"
+    }
+  ],
   "license": "MIT",
   "type": "module",
   "scripts": {

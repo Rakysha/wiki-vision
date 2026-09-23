@@ -5,7 +5,7 @@
 
 Turn any Wikipedia article into an immersive, distraction-free audiobook experience with real-time word-by-word karaoke synchronization and on-demand AI explanations for complex concepts.
 
-[![Version](https://img.shields.io/badge/version-v1.0--beta-blue.svg?style=for-the-badge)](https://github.com/wikivision/wiki-vision/releases)
+[![Version](https://img.shields.io/badge/version-v1.0--beta-blue.svg?style=for-the-badge)](https://github.com/Rakysha/wiki-vision/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Dependencies](https://img.shields.io/badge/dependencies-0%20(Pure%20Vanilla)-success.svg?style=for-the-badge)](#-zero-dependency-architecture)
 [![AI Providers](https://img.shields.io/badge/AI%20Providers-Groq%20%7C%20BotHub%20%7C%20DeepSeek%20%7C%20OpenAI%20%7C%20Gemini-orange.svg?style=for-the-badge)](#-multi-provider-ai-mentor)
@@ -207,6 +207,11 @@ wiki-vision/
 - [ ] Export article to synchronized MP3 + LRC audiobook format.
 - [ ] Offline local LLM support via WebGPU (`transformers.js` / WebLLM).
 - [ ] PDF and EPUB import support.
+
+## 👥 Authors & Co-Authors
+
+- **Lead Architect & Developer:** [Rakysha](https://github.com/Rakysha)
+- **AI Co-Author & Pair Programmer:** [Claude](https://www.anthropic.com) (Anthropic)
 
 ---
 
